@@ -15,7 +15,7 @@ router.post('/signin', signinRequest);
 router.post('/reset-password', resetPasswordRequest);
 
 // Route untuk edit nama
-router.post('/edit-name', editNameRequest);
+router.put('/user/:uid/name', editNameRequest);
 
 // Route untuk menambahkan foto profil
 router.put('/profile/picture', addProfilePicture);
