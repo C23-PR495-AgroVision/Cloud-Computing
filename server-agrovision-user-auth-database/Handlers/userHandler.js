@@ -1,6 +1,7 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, setDoc, addDoc } = require('firebase/firestore');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
+const { doc } = require('firebase/firestore'); // Tambahkan baris ini
 
 const firebaseConfig = {
   // Firebase configuration
@@ -33,7 +34,7 @@ const signupRequest = (request, response) => {
       const email = emailField;
       const name = fullnameField;
       const password = passwordField;
-      const userFirebaseID = db.doc(db, "accounts", userCred.user);
+      const userFirebaseID = doc(db, "accounts", userCred.user.uid); // Perbarui baris ini
       
       const accountsCollection = collection(db, 'accounts');
       addDoc(accountsCollection, { email, name, password })
