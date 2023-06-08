@@ -1,15 +1,16 @@
 # Cloud-Computing
 
-##Berbagai endpoint yang digunakan terdiri atas berbagai berikut
+## Berbagai endpoint yang digunakan terdiri atas berbagai berikut
 
 | OPERATION     | ENDPOINT      |
 | ------------- | ------------- |
 | POST          | /userHandler  |
 | POST          |  /signin      |
 | POST          |  /signout     |
+| POST          |  /userHistory |
 
 
-##POST /userHandler
+## POST /userHandler
 
 bertugas untuk mendaftarkan user kepada aplikasi
 
@@ -33,7 +34,7 @@ response yang sukses:
 ```
 
 
-##POST /signin
+## POST /signin
 
 bertugas untuk me-login user kepada aplikasi
 
@@ -57,13 +58,40 @@ response yang sukses:
 }
 ```
 
-##POST /signout
+## POST /signout
 
 bertugas untuk me-logout user dari aplikasi.
 
 Tidak perlu request body.
 
+Response yang sukses:
+
+```json
 {
     "status": "success",
     "message": "Sign-out successful"
 }
+```
+
+## POST /userHistory
+
+bertugas untuk menyimpan hasil prediksi user dalam database.
+
+Request body sebagai berikut:
+
+```json
+{
+    "userId": "123456",
+    "history": {
+        "prediction1": "result1",
+        "prediction2": "result2"
+    }
+}
+```
+
+Response yang sukses:
+```json
+{
+       "message": "User history saved successfully"
+}
+```
