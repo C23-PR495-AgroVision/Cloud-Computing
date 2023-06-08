@@ -10,8 +10,8 @@ firebaseAdmin.initializeApp({
   databaseURL: 'https://capstone-project-386912.firebaseio.com' // URL database Firebase Anda
 });
 
-// Route untuk menyimpan history prediksi
-router.post('/', (req, res) => {
+// Handler untuk userHistoryRequest
+const userHistoryRequest = (req, res) => {
   // Dapatkan data pengguna dan history prediksi dari body request
   const { userId, history } = req.body;
 
@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
   userHistoryRef.child(userId).push().set(history);
 
   res.status(200).json({ message: 'User history saved successfully' });
-});
+};
 
-module.exports = router;
+// Export userHistoryRequest sebagai fungsi handler yang akan dipanggil dari routes.js
+module.exports = { userHistoryRequest, router };

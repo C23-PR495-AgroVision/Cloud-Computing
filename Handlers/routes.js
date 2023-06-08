@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { signupRequest, signinRequest, signoutRequest} = require('./userHandler');
-const { userHistoryRequest } = require('ModelsHandlers/userHistory.js');
+const { userHistoryRequest } = require('../ModelsHandlers/userHistory');
 // Import modul yang sesuai untuk signin dan signout
 
 // Route untuk signup
