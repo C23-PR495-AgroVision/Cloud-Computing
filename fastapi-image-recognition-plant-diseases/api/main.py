@@ -50,6 +50,18 @@ MODELS = {
         "path": "fastapi-image-recognition-plant-diseases/saved-models/BellPaper_MobileNetV2_model2_Based_Non_Augmented",
         "class_names": ["Pepper bell Bacterial spot", "Pepper bell healthy"]
     },
+    "potato": {
+        "path": "fastapi-image-recognition-plant-diseases/saved-models/DenseNet_model2_Potato_Based_Non_Augmented",
+        "class_names": ["Potato healthy", "Potato leaf early blight", "Potato leaf late blight"]
+    },
+    "tomato": {
+        "path": "fastapi-image-recognition-plant-diseases/saved-models/DenseNet_model2_Tomato_Based_Non_Augmented",
+        "class_names": ["Tomato Early blight leaf", "Tomato Septoria leaf spot", "Tomato leaf bacterial spot", "Tomato leaf healthy", "Tomato leaf late blight", "Tomato leaf mosaic virus", "Tomato leaf yellow virus", "Tomato mold leaf", "Tomato two spotted spider mites leaf"]
+    },
+    "strawberry": {
+        "path": "fastapi-image-recognition-plant-diseases/saved-models/DenseNet_model2_Strawberry_Based_Non_Augmented",
+        "class_names": ["Strawberry___healthy", "Strawberry___Leaf_scorch"]
+    },
     "cherry": {
         "path": "fastapi-image-recognition-plant-diseases/saved-models/Cherry_MobileNetV2_model2_Based_Non_Augmented",
         "class_names": ["healthy", "powdery_mildew"]
@@ -67,6 +79,7 @@ MODELS = {
         "class_names": ["Peach___Bacterial_spot", "Peach___healthy"]
     }
 }
+
 
 def load_model(model_path):
     model = tf.keras.models.load_model(model_path)
