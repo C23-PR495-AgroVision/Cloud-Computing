@@ -4,7 +4,7 @@ const firebaseAdmin = require('firebase-admin');
 const router = express.Router();
 
 // Inisialisasi Firebase menggunakan credential yang diberikan
-const serviceAccount = require('./path/to/credential.json');
+const serviceAccount = require('../serviceaccountkey.json');
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount),
   databaseURL: 'https://capstone-project-386912.firebaseio.com' // URL database Firebase Anda
