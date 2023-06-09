@@ -32,6 +32,7 @@ const signupRequest = (request, response) => {
       const email = emailField;
       const name = fullnameField;
       const password = passwordField;
+
       const userFirebaseID = userCred.user.uid;
       
       const accountsCollection = doc(collection(db, 'accounts'), userFirebaseID); //menambah penamaan berdasarkan uid dari firebase auth
@@ -81,7 +82,7 @@ const signinRequest = (request, response) => {
         message: 'Sign-in successful',
         data: {
           uid: userCred.user.uid,
-          email: userCred.user.email,
+          email: userCred.user.email
         },
       });
     })
