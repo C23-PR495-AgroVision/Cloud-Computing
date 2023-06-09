@@ -47,7 +47,7 @@ Jika ada salah satu dari tiga field (emailField, fullnameField, passwordField) k
 
 {
       "status": "fail",
-      message: "All fields need to be filled. (Email, Full name, and Password)",
+      "message": "All fields need to be filled. (Email, Full name, and Password)",
 }
 ```
 
@@ -282,6 +282,7 @@ Request parameter adalah uid yang dimiliki oleh user.
 
 Request body dalam bentuk file yang seperti screenshot berikut
 
+![Screenshot of Request Body](Capture.JPG)
 
 
 Response yang sukses:
