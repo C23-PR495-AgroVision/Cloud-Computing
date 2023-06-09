@@ -5,6 +5,15 @@ const { signupRequest, signinRequest, signoutRequest, resetPasswordRequest, edit
 const { userHistoryRequest } = require('../ModelsHandlers/userHistory');
 // Import modul yang sesuai untuk signin dan signout
 
+// Route untuk URL akar
+router.get('/', (req, res) => {
+  res.send('Welcome to the homepage');
+});
+
+// Tambahkan rute lainnya sesuai kebutuhan
+
+module.exports = router;
+
 // Route untuk signup
 router.post('/userHandler', signupRequest);
 
