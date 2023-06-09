@@ -25,6 +25,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use('/', routes);
 
+app.set('etag', false);
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
