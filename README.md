@@ -46,7 +46,7 @@ Jika ada salah satu dari tiga field (emailField, fullnameField, passwordField) k
 ```json
 
 {
-      status: 'fail',
+      "status": 'fail',
       message: 'All fields need to be filled. (Email, Full name, and Password)',
 }
 ```
@@ -54,8 +54,8 @@ Jika ada salah satu dari tiga field (emailField, fullnameField, passwordField) k
 Jika terdapat error dalam membuat dokumen ke database, atau membuat akun user:
 ```json
 {
-        status: 'fail',
-        message: 'An error occurred during sign-up',
+        "status": 'fail',
+        "message": 'An error occurred during sign-up',
 }
 ```
 
@@ -88,16 +88,16 @@ response yang sukses:
 Jika salah satu field (email, password) tidak terisi:
 ```json
 {
-      status: 'fail',
-      message: 'Email and password are required.',
+      "status": 'fail',
+      "message": 'Email and password are required.',
 }
 ```
 
 Jika terdapat error dalam melakukan proses sign-in:
 ```json
 {
-        status: 'fail',
-        message: 'An error occurred during sign-in',
+        "status": 'fail',
+        "message": 'An error occurred during sign-in',
 }
 ```
 
@@ -121,8 +121,8 @@ Response yang sukses:
 Jika terdapat error dalam melakukan proses sign-out:
 ```json
 {
-        status: 'fail',
-        message: 'An error occurred during sign-out',
+        "status": 'fail',
+        "message": 'An error occurred during sign-out',
 }
 ```
 
@@ -174,8 +174,8 @@ response yang sukses:
 Jika field yang diperlukan (email) kosong:
 ```json
 {
-      status: 'fail',
-      message: 'Email is required.'
+      "status": 'fail',
+      "message": 'Email is required.'
 }
 ```
 
@@ -183,8 +183,8 @@ Jika terdapat error saat melakukan proses pengiriman email password reset:
 
 ```json
 {
-        status: 'fail',
-        message: 'An error occurred while sending the password reset email.'
+        "status": 'fail',
+        "message": 'An error occurred while sending the password reset email.'
 }
 ```
 
@@ -215,8 +215,8 @@ response yang sukses:
 Jika salah satu request (uid, name) kosong:
 ```json
 {
-      status: 'fail',
-      message: 'UID and name are required.'
+      "status": 'fail',
+      "message": 'UID and name are required.'
 }
 ```
 
@@ -224,16 +224,16 @@ Jika berdasarkan uid yang dimiliki, dokumen yang dicari tidak didapatkan:
 
 ```json
 {
-        status: 'fail',
-        message: 'User not found.'
+        "status": 'fail',
+        "message": 'User not found.'
 }
 ```
 
 Jika terdapat error sewaktu melakukan proses penggantian nama:
 ```json
 {
-      status: 'fail',
-      message: 'An error occurred while updating name.'
+      "status": 'fail',
+      "message": 'An error occurred while updating name.'
 }
 ```
 
@@ -260,8 +260,8 @@ Jika tidak menemukan dokumen yang bernama sama dengan uid user:
 
 ```json
 {
-        status: 'Failed',
-        message: 'Data not found'
+        "status": 'Failed',
+        "message": 'Data not found'
 }
 ``` 
 
@@ -269,8 +269,8 @@ Jika terdapat error dalam proses mengambil informasi user:
 
 ```json
 {
-      status: 'Failed',
-      message: 'Error retrieving user data'
+      "status": 'Failed',
+      "message": 'Error retrieving user data'
 }
 ```
 
@@ -288,8 +288,8 @@ Response yang sukses:
 
 ```json
 {
-      status: 'success',
-      message: 'Profile picture added successfully.'
+      "status": 'success',
+      "message": 'Profile picture added successfully.'
 }
 ```
 
@@ -297,8 +297,8 @@ Jika salah satu field (uid, profilePicture) kosong:
 
 ```json
 {
-      status: 'fail',
-      message: 'UID and profile picture are required.'
+      "status": 'fail',
+      "message": 'UID and profile picture are required.'
 }
 ```
 
@@ -306,8 +306,8 @@ Jika tidak terdapat dokumen yang bernama uid tersebut:
 
 ```json
 {
-        status: 'fail',
-        message: 'User not found.'
+       "status": 'fail',
+        "message": 'User not found.'
 }
 ```
 
@@ -315,8 +315,8 @@ Jika terdapat error sewaktu melakukan proses penambahan foto profile:
 
 ```json
 {
-      status: 'fail',
-      message: 'An error occurred while adding profile picture.'
+     "status": 'fail',
+      "message": 'An error occurred while adding profile picture.'
 }
 ```
 
