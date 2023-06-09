@@ -1,3 +1,4 @@
+const cacheControl = require('express-cache-controller');
 const express = require('express');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
@@ -21,11 +22,26 @@ const port = 8080;
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-app.use(bodyParser.json());
-app.use(express.json());
-app.use('/', routes);
 
-app.set('etag', false);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cacheControl({ noCache: true }));
+app.use(express.json());
+app.use(routes);
+
+app.use((req, res, next) => {
+  const error = new Error('Not Found');
+  error.statusCode = 404;
+  next(error);
+});
+
+// Error response middleware
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500).json({
+    statusCode: err.statusCode || 500,
+    error: err.message || 'Not Found',
+    message: err.message || 'Not Found'
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
