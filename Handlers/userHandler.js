@@ -1,10 +1,8 @@
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, setDoc, addDoc } = require('firebase/firestore');
-const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require('firebase/auth');
-const { doc } = require('firebase/firestore'); // Tambahkan baris ini
+const { getFirestore, collection, setDoc, addDoc, doc, getDoc, updateDoc } = require('firebase/firestore');
+const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } = require('firebase/auth');
 
 const firebaseConfig = {
-  // Firebase configuration
   apiKey: "AIzaSyBQv6Rg6Rx5uxbY3RpteS_JZ5LAedX195M",
   authDomain: "capstone-project-386912.firebaseapp.com",
   projectId: "capstone-project-386912",
@@ -34,12 +32,12 @@ const signupRequest = (request, response) => {
       const email = emailField;
       const name = fullnameField;
       const password = passwordField;
-      const userFirebaseID = doc(db, "accounts", userCred.user.uid); // Perbarui baris ini
+      const userFirebaseID = userCred.user.uid;
       
       const accountsCollection = collection(db, 'accounts');
       addDoc(accountsCollection, { email, name, password })
         .then((docRef) => {
-            console.log('Document written with ID: ', docRef.id);
+          console.log('Document written with ID: ', docRef.id);
           return response.status(201).json({
             status: 'success',
             message: 'Sign-up has been successful',
@@ -79,9 +77,8 @@ const signinRequest = (request, response) => {
         status: 'success',
         message: 'Sign-in successful',
         user: {
+          uid: userCred.user.uid,
           email: userCred.user.email,
-          name: userCred.user.name,
-          // Include any other user data you want to return
         },
       });
     })
@@ -111,8 +108,138 @@ const signoutRequest = (request, response) => {
     });
 };
 
+const getUserData = async (uid) => {
+  try {
+    const userDocRef = doc(db, 'accounts', uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      return {
+        status: 'Success',
+        user: {
+          uid: userData.uid,
+          email: userData.email
+        }
+      };
+    } else {
+      return {
+        status: 'Failed',
+        message: 'Data not found'
+      };
+    }
+  } catch (error) {
+    console.error('Error retrieving user data:', error);
+    return {
+      status: 'Failed',
+      message: 'Error retrieving user data'
+    };
+  }
+};
+
+const resetPasswordRequest = (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Email is required.'
+    });
+  }
+
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      return res.status(200).json({
+        status: 'success',
+        message: 'Password reset email sent successfully.'
+      });
+    })
+    .catch((error) => {
+      console.error('Error sending password reset email:', error);
+      return res.status(500).json({
+        status: 'fail',
+        message: 'An error occurred while sending the password reset email.'
+      });
+    });
+};
+
+const editNameRequest = async (req, res) => {
+  const { uid, name } = req.body;
+
+  if (!uid || !name) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'UID and name are required.'
+    });
+  }
+
+  try {
+    const userRef = doc(db, 'accounts', uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'User not found.'
+      });
+    }
+
+    await updateDoc(userRef, { name });
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Name updated successfully.'
+    });
+  } catch (error) {
+    console.error('Error updating name:', error);
+    return res.status(500).json({
+      status: 'fail',
+      message: 'An error occurred while updating name.'
+    });
+  }
+};
+
+const addProfilePicture = async (req, res) => {
+  const { uid, profilePicture } = req.body;
+
+  if (!uid || !profilePicture) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'UID and profile picture are required.'
+    });
+  }
+
+  try {
+    const userRef = doc(db, 'accounts', uid);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'User not found.'
+      });
+    }
+
+    await updateDoc(userRef, { profilePicture });
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Profile picture added successfully.'
+    });
+  } catch (error) {
+    console.error('Error adding profile picture:', error);
+    return res.status(500).json({
+      status: 'fail',
+      message: 'An error occurred while adding profile picture.'
+    });
+  }
+};
 module.exports = {
   signupRequest,
   signinRequest,
   signoutRequest,
+  getUserData,
+  resetPasswordRequest,
+  editNameRequest,
+  addProfilePicture
 };
