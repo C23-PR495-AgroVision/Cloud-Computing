@@ -42,7 +42,7 @@ const signupRequest = (request, response) => {
             status: 'success',
             message: 'Sign-up has been successful',
             data : {
-              user_id : userFirebaseID,
+              uid: userFirebaseID,
             }
           });
         })
@@ -79,7 +79,7 @@ const signinRequest = (request, response) => {
       return response.status(200).json({
         status: 'success',
         message: 'Sign-in successful',
-        user: {
+        data: {
           uid: userCred.user.uid,
           email: userCred.user.email,
         },
