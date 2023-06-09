@@ -25,11 +25,12 @@ router.post('/signout', signoutRequest);
 
 // Route untuk getUserData
 router.get('/user/:uid', async (req, res) => {
-    const uid = req.params.uid;
-    const result = await getUserData(uid);
-    
-    res.status(200).json(result);
-  });
+  const uid = req.params.uid;
+  const result = await getUserData(uid);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).json(result);
+});
 
 // route untuk user history
 router.post('/userHistory', userHistoryRequest);
