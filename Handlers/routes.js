@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { signupRequest, signinRequest, signoutRequest, resetPasswordRequest, editNameRequest, addProfilePicture} = require('./userHandler');
+const { signupRequest, signinRequest, signoutRequest, resetPasswordRequest, editNameRequest, addProfilePicture, getUserData} = require('./userHandler');
 const { userHistoryRequest } = require('../ModelsHandlers/userHistory');
 // Import modul yang sesuai untuk signin dan signout
 
@@ -22,8 +22,8 @@ router.post('/user/:uid/profile-picture', addProfilePicture);
 
 // Route untuk signout
 router.post('/signout', signoutRequest);
-// Route untuk getUserData
 
+// Route untuk getUserData
 router.get('/user/:uid', async (req, res) => {
     const uid = req.params.uid;
     const result = await getUserData(uid);

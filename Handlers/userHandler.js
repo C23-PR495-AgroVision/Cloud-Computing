@@ -34,13 +34,16 @@ const signupRequest = (request, response) => {
       const password = passwordField;
       const userFirebaseID = userCred.user.uid;
       
-      const accountsCollection = collection(db, 'accounts');
-      addDoc(accountsCollection, { email, name, password })
+      const accountsCollection = doc(collection(db, 'accounts'), userFirebaseID); //menambah penamaan berdasarkan uid dari firebase auth
+      setDoc(accountsCollection, { email, name, password })
         .then((docRef) => {
-          console.log('Document written with ID: ', docRef.id);
+          console.log('Document written with ID: ', userFirebaseID);
           return response.status(201).json({
             status: 'success',
             message: 'Sign-up has been successful',
+            data : {
+              user_id : userFirebaseID,
+            }
           });
         })
         .catch((error) => {
