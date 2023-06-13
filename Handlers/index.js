@@ -23,9 +23,9 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({limit: "10mb", extended: true, parameterLimit: 50000}));
 app.use(cacheControl({ noCache: true }));
-app.use(express.json());
+app.use(express.json({limit: "10mb", extended: true}))
 app.use(routes);
 
 app.use((req, res, next) => {
