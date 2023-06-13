@@ -121,9 +121,11 @@ const getUserData = async (uid) => {
       const userData = userDocSnap.data();
       return {
         status: 'Success',
-        user: {
+        data: {
           uid: userData.uid,
-          email: userData.email
+          email: userData.email,
+          name: userData.name,
+          profilePicture: userData.profilePicture
         }
       };
     } else {
@@ -140,6 +142,7 @@ const getUserData = async (uid) => {
     };
   }
 };
+
 
 const resetPasswordRequest = (req, res) => {
   const { email } = req.body;
