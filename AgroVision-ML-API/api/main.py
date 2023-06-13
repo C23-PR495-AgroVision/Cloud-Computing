@@ -10,6 +10,7 @@ import tensorflow as tf
 from flask import Flask, request, jsonify
 from typing import Optional
 from description_file import DESC
+import time
 
 app = Flask(__name__)
 
@@ -161,14 +162,19 @@ def predict(files):
     # Giving description to each class
     desc_key = DESC[model_name]
     desc_actual = desc_key[predicted_class]
+
+    # Get the current timestamp in seconds
+    current_timestamp = time.time()
+    # Convert timestamp to local time
+    current_local_time = time.ctime(current_timestamp)
     
     # Save the prediction to Firebase Firestore
     db = firestore.client()
     user_id = "Not0xA8TQUbQOMONJWTYos4cPCv1"  # Replace with the appropriate user ID
-    result = {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual)}
+    result = {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual), "time": current_local_time}
     
     predictions_ref = db.collection("predictions")
     user_predictions_ref = predictions_ref.document(user_id)
     user_predictions_ref.set(result)
     
-    return {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual)}
+    return {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual), "time": current_local_time}
