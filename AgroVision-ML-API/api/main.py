@@ -110,6 +110,14 @@ def load_model_from_storage(model_path, model_file):
         # Handle any other exceptions that may occur during the download or model loading
         raise Exception(f"Error loading model: {str(e)}")
 
+predictions = []
+predicted_index = None
+predicted_class = None
+confidence = None
+desc_key = []
+desc_actual = None
+
+
 # do prediction
 @app.route("/predict", methods=["POST", "GET"])
 def predict(files):
@@ -144,7 +152,7 @@ def predict(files):
                     "6": {
                         "model": "PD-peach",
                         "title": "Persik",
-                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/peach.pngk"
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/peach.png"
                     },
                     "7": {
                         "model": "PD-potato",
