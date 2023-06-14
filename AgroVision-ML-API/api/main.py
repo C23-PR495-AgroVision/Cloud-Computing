@@ -111,70 +111,170 @@ def load_model_from_storage(model_path, model_file):
         raise Exception(f"Error loading model: {str(e)}")
 
 # do prediction
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["POST", "GET"])
 def predict(files):
-    model_name = request.form.get("model", "PD-apple")
-    if model_name not in MODELS:
-        return {"error": f"Model '{model_name}' not found."}
-        
-    model_info = MODELS[model_name]
-    model_path = model_info["path"]
-    class_names = model_info["class_names"]
-    
-    # Load the model if it's not already loaded
-    global model
-    if model is None:
-        load_model_from_storage(model_path, f"/tmp/{model_name}.h5")
-        model = tf.keras.models.load_model(f"/tmp/{model_name}.h5")
-    
-    # Check if the file is included in the request
-    if "file" not in request.files:
-        return {"error": "No file uploaded."}
-    
-    file = request.files["file"]
-    
-    # Check if the file is empty
-    if file.filename == "":
-        return {"error": "Empty file uploaded."}
-    
-    # Save the file to a temporary location
-    temp_file_path = f"/tmp/{file.filename}"
-    file.save(temp_file_path)
-    
-    # Load and preprocess the image
-    image = tf.keras.utils.load_img(temp_file_path, target_size=(224, 224))
-    image = tf.keras.utils.img_to_array(image)
-    # Resize the image to the size required by the model
-    if model_name.startswith("PD-"):
-        # Normalize the image
-        image = image / 256.0
-    else:
-        image = image / 255.0
-    # Expand dimensions to create a batch of size 1
-    image = np.expand_dims(image, 0)
-    
-    # Make predictions
-    predictions = model.predict(image)
-    predicted_index = np.argmax(predictions[0])
-    predicted_class = class_names[predicted_index]
-    confidence = predictions[0][predicted_index]
-    
-    # Giving description to each class
-    desc_key = DESC[model_name]
-    desc_actual = desc_key[predicted_class]
+    if request.method == 'GET':
+        icon= {
+                "plant-disease": {
+                    "1": {
+                        "model": "PD-apple",
+                        "title": "Apel",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Apple.png"
+                    },
+                    "2": {
+                        "model": "PD-bellpepper",
+                        "title": "Paprika",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Bellpepper.png"
+                    },
+                    "3": {
+                        "model": "PD-cherry",
+                        "title": "Ceri",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Cherry.png"
+                    },
+                    "4": {
+                        "model": "PD-corn",
+                        "title": "Jagung",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Corn.png"
+                    },
+                    "5": {
+                        "model": "PD-grape",
+                        "title": "Anggur",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/grape.png"
+                    },
+                    "6": {
+                        "model": "PD-peach",
+                        "title": "Persik",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/peach.pngk"
+                    },
+                    "7": {
+                        "model": "PD-potato",
+                        "title": "Kentang",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Potato.png"
+                    },
+                    "8": {
+                        "model": "PD-strawberry",
+                        "title": "Stroberi",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Strawberry.png"
+                    },
+                    "9": {
+                        "model": "PD-tomato",
+                        "title": "Tomat",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Tomato.png"
+                    }
+                },
 
-    # Get the current timestamp in seconds
-    current_timestamp = time.time()
-    # Convert timestamp to local time
-    current_local_time = time.ctime(current_timestamp)
-    
-    # Save the prediction to Firebase Firestore
-    db = firestore.client()
-    user_id = "Not0xA8TQUbQOMONJWTYos4cPCv1"  # Replace with the appropriate user ID
-    result = {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual), "time": current_local_time}
-    
-    predictions_ref = db.collection("predictions")
-    user_predictions_ref = predictions_ref.document(user_id)
-    user_predictions_ref.set(result)
-    
-    return {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual), "time": current_local_time}
+                "ripeness" :{
+                    "1": {
+                        "model": "FP-bellpepper",
+                        "title": "Paprika",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Bellpepper.png"
+                    },
+                    "2": {
+                        "model": "FP-chilepepper",
+                        "title": "Cabai",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Chillepepper.png"
+                    },
+                    "3": {
+                        "model": "FP-tomato",
+                        "title": "Tomat",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Tomato.png"
+                    },
+                    "4": {
+                        "model": "FP-apple",
+                        "title": "Apel",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Apple.png"
+                    },
+                    "5": {
+                        "model": "FP-banana",
+                        "title": "Pisang",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/banana.png"
+                    },
+                    "6": {
+                        "model": "FP-guava",
+                        "title": "Jambu Biji",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Guava.png"
+                    },
+                    "7": {
+                        "model": "FP-lime",
+                        "title": "Jeruk Nipis",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Lime.png"
+                    },
+                    "8": {
+                        "model": "FP-orange",
+                        "title": "Jeruk",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/orange.png"
+                    },
+                    "9": {
+                        "model": "FP-pomegranate",
+                        "title": "Delima",
+                        "imgUrl": "https://storage.googleapis.com/icon-app/Icon/Pomagrate.png"
+                    }
+                }
+            }
+        return jsonify(icon)
+    else:
+        model_name = request.form.get("model", "PD-apple")
+        if model_name not in MODELS:
+            return {"error": f"Model '{model_name}' not found."}
+            
+        model_info = MODELS[model_name]
+        model_path = model_info["path"]
+        class_names = model_info["class_names"]
+        
+        # Load the model if it's not already loaded
+        global model
+        if model is None:
+            load_model_from_storage(model_path, f"/tmp/{model_name}.h5")
+            model = tf.keras.models.load_model(f"/tmp/{model_name}.h5")
+        
+        # Check if the file is included in the request
+        if "file" not in request.files:
+            return {"error": "No file uploaded."}
+        
+        file = request.files["file"]
+        
+        # Check if the file is empty
+        if file.filename == "":
+            return {"error": "Empty file uploaded."}
+        
+        # Save the file to a temporary location
+        temp_file_path = f"/tmp/{file.filename}"
+        file.save(temp_file_path)
+        
+        # Load and preprocess the image
+        image = tf.keras.utils.load_img(temp_file_path, target_size=(224, 224))
+        image = tf.keras.utils.img_to_array(image)
+        # Resize the image to the size required by the model
+        if model_name.startswith("PD-"):
+            # Normalize the image
+            image = image / 256.0
+        else:
+            image = image / 255.0
+        # Expand dimensions to create a batch of size 1
+        image = np.expand_dims(image, 0)
+        
+        # Make predictions
+        predictions = model.predict(image)
+        predicted_index = np.argmax(predictions[0])
+        predicted_class = class_names[predicted_index]
+        confidence = predictions[0][predicted_index]
+        
+        # Giving description to each class
+        desc_key = DESC[model_name]
+        desc_actual = desc_key[predicted_class]
+
+        # Get the current timestamp in seconds
+        current_timestamp = time.time()
+        # Convert timestamp to local time
+        current_local_time = time.ctime(current_timestamp)
+        
+        # Save the prediction to Firebase Firestore
+        db = firestore.client()
+        uid = request.form.get("uid", "Not0xA8TQUbQOMONJWTYos4cPCv1")  # Replace with the appropriate user ID, default value "Not0xA8TQUbQOMONJWTYos4cPCv1"
+        result = {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual), "time": current_local_time}
+        
+        predictions_ref = db.collection("predictions")
+        user_predictions_ref = predictions_ref.document(uid)
+        user_predictions_ref.set(result)
+        
+        return {"class": predicted_class, "confidence": float(confidence), "description": (desc_actual), "time": current_local_time}
