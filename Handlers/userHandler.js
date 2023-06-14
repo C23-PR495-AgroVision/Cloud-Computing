@@ -171,8 +171,9 @@ const resetPasswordRequest = (req, res) => {
 };
 
 const editNameRequest = async (req, res) => {
-  const { uid, name } = req.body;
-
+  const { uid } = req.params;
+  const { name } = req.body;
+  
   if (!uid || !name) {
     return res.status(400).json({
       status: 'fail',
@@ -207,7 +208,8 @@ const editNameRequest = async (req, res) => {
 };
 
 const addProfilePicture = async (req, res) => {
-  const { uid, profilePicture } = req.body;
+  const { uid } = req.params;
+  const { profilePicture } = req.body;
 
   if (!uid || !profilePicture) {
     return res.status(400).json({
