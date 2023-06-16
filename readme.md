@@ -1,7 +1,7 @@
 # AgroVision Cloud Computing Repository
 
 ## Cloud Architecture Diagram
-![Cloud Architecture](https://github.com/C23-PR495-AgroVision/Cloud-Computing/assets/47298320/b293be6a-1d97-4b46-9b15-af7709a7eb0c)
+![Cloud Architecture](https://github.com/C23-PR495-AgroVision/Cloud-Computing/assets/47298320/7a76dfaa-55aa-4c21-97a9-1bedc546d256)
 
 
 ## API User Authentication and User Database
