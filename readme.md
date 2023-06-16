@@ -1,8 +1,9 @@
-# Cloud-Computing
+# AgroVision Cloud Computing Repository
 
-## Berbagai endpoint yang digunakan terdiri atas berbagai berikut
 
-| OPERATION     | ENDPOINT      	    |
+## List of Endpoints
+
+| Method     | Endpoint      	    |
 | ------------- | ------------------------- |
 | POST          | /userHandler  	    |
 | POST          |  /signin      	    |
@@ -13,14 +14,11 @@
 | GET		|/user/:uid		    |
 | POST		|/user/:uid/profile-picture |
 
+### POST /userHandler
 
+This method is used for user registration on the application.
 
-
-## POST /userHandler
-
-bertugas untuk mendaftarkan user kepada aplikasi
-
-Request Body sebagai berikut:
+#### Request Body Example
 
 ```json
 {
@@ -30,7 +28,7 @@ Request Body sebagai berikut:
 }
 ```
 
-response yang sukses:
+#### Success Response Example
 
 ```json
 {
@@ -42,29 +40,32 @@ response yang sukses:
 }
 ```
 
-Jika ada salah satu dari tiga field (emailField, fullnameField, passwordField) kosong:
+#### Response if There is One or More Empty Field
+
 ```json
 
 {
       "status": "fail",
-      "message": "All fields need to be filled. (Email, Full name, and Password)",
+      "message": "All fields need to be filled. (Email, Full name, and Password)"
 }
 ```
 
-Jika terdapat error dalam membuat dokumen ke database, atau membuat akun user:
+#### Response if Some Error Occurred when Creating a Document to the Database
+
 ```json
 {
         "status": "fail",
-        "message": "An error occurred during sign-up",
+        "message": "An error occurred during sign-up"
 }
 ```
 
 
-## POST /signin
+### POST /signin
 
-bertugas untuk me-login user kepada aplikasi
+This method is used for user sign-in on the application.
 
-Request body sebagai berikut:
+
+#### Request Body Example
 
 ```json
 {
@@ -73,7 +74,8 @@ Request body sebagai berikut:
 }
 ```
 
-response yang sukses:
+#### Success Response Example
+
 ```json
 {
     "status": "success",
@@ -85,15 +87,17 @@ response yang sukses:
 }
 ```
 
-Jika salah satu field (email, password) tidak terisi:
+#### Error Response if There is One or More Empty Field
+
 ```json
 {
       "status": "fail",
-      "message": "Email and password are required.",
+      "message": "Email and password are required."
 }
 ```
 
-Jika terdapat error dalam melakukan proses sign-in:
+#### Response if Some Error Occurs when Performing The Sign-in Process
+
 ```json
 {
         "status": "fail",
@@ -103,13 +107,11 @@ Jika terdapat error dalam melakukan proses sign-in:
 
 
 
-## POST /signout
+### POST /signout
 
-bertugas untuk me-logout user dari aplikasi.
+This method is used for user sign-out on the application. This method doesn't require request body.
 
-Tidak perlu request body.
-
-Response yang sukses:
+#### Success Response
 
 ```json
 {
@@ -118,19 +120,19 @@ Response yang sukses:
 }
 ```
 
-Jika terdapat error dalam melakukan proses sign-out:
+#### Response if Some Error Occurs when Performing The Sign-out Process
 ```json
 {
         "status": "fail",
-        "message": "An error occurred during sign-out",
+        "message": "An error occurred during sign-out"
 }
 ```
 
-## POST /userHistory
+### POST /userHistory
 
-bertugas untuk menyimpan hasil prediksi user dalam database.
+This method is used for storing prediction results for each user in the database.
 
-Request body sebagai berikut:
+#### Request Body Example
 
 ```json
 {
@@ -142,7 +144,8 @@ Request body sebagai berikut:
 }
 ```
 
-Response yang sukses:
+#### Success Response
+
 ```json
 {
        "message": "User history saved successfully"
@@ -150,11 +153,11 @@ Response yang sukses:
 ```
 
 
-## POST /reset-password
+### POST /reset-password
 
-bertugas untuk mengirim email kepada user untuk melakukan proses reset password.
+This method is used for sending email to the user to do reset password process.
 
-Request body sebagai berikut:
+#### Request Body Example
 
 ```json
 {
@@ -162,7 +165,7 @@ Request body sebagai berikut:
 }
 ```
 
-response yang sukses:
+#### Success Response
 
 ```json
 {
@@ -171,7 +174,8 @@ response yang sukses:
 }
 ```
 
-Jika field yang diperlukan (email) kosong:
+#### Error Response if The Required Field is Empty
+
 ```json
 {
       "status": "fail",
@@ -179,7 +183,7 @@ Jika field yang diperlukan (email) kosong:
 }
 ```
 
-Jika terdapat error saat melakukan proses pengiriman email password reset:
+#### Response if Some Error Occurs when Performing The Process of Sending an Email
 
 ```json
 {
@@ -188,12 +192,11 @@ Jika terdapat error saat melakukan proses pengiriman email password reset:
 }
 ```
 
-## PUT /user/:uid/name
+### PUT /user/:uid/name
 
-Bertugas untuk menggantikan nama dari uid yang dibacakan.
-Request parameter yang diperlukan adalah userid yang dimiliki user.
+This method is used for changing the name of the `uid` that was read out. The request parameter needed is the `userid`.
 
-Request body sebagai berikut:
+#### Request Body Example
 
 ```json
 {
@@ -202,7 +205,7 @@ Request body sebagai berikut:
 }
 ```
 
-response yang sukses:
+#### Success Response
 
 ```json
 {
@@ -211,8 +214,8 @@ response yang sukses:
 }
 ```
 
+#### Error Response if There is One or More Empty Field
 
-Jika salah satu request (uid, name) kosong:
 ```json
 {
       "status": "fail",
@@ -220,7 +223,7 @@ Jika salah satu request (uid, name) kosong:
 }
 ```
 
-Jika berdasarkan uid yang dimiliki, dokumen yang dicari tidak didapatkan:
+#### Error Response if Based on The `uid`, The Document is Not Found
 
 ```json
 {
@@ -229,7 +232,8 @@ Jika berdasarkan uid yang dimiliki, dokumen yang dicari tidak didapatkan:
 }
 ```
 
-Jika terdapat error sewaktu melakukan proses penggantian nama:
+#### Error Response when Performing Name Changing
+
 ```json
 {
       "status": "fail",
@@ -237,14 +241,11 @@ Jika terdapat error sewaktu melakukan proses penggantian nama:
 }
 ```
 
-## GET /user/:uid
+### GET /user/:uid
 
-Bertugas untuk mengambil informasi user berdasarkan uid yang dibacakan.
+This method is used to get user information based on the `uid` that was read out. This method doesn't require a request body, rather just needs the `uid` from the user.
 
-Tidak perlu request body dalam bentuk JSON.
-Hanya perlu request parameter dalam bentuk uid yang dimiliki user.
-
-response yang sukses:
+#### Success Response Example
 
 ```json
 {
@@ -256,7 +257,7 @@ response yang sukses:
 }
 ```
 
-Jika tidak menemukan dokumen yang bernama sama dengan uid user:
+#### Error Response if There is No Document Exist for Specific `uid`
 
 ```json
 {
@@ -265,7 +266,7 @@ Jika tidak menemukan dokumen yang bernama sama dengan uid user:
 }
 ``` 
 
-Jika terdapat error dalam proses mengambil informasi user:
+#### Error Response on Failing to Get User Information
 
 ```json
 {
@@ -277,15 +278,12 @@ Jika terdapat error dalam proses mengambil informasi user:
 
 ## POST /user/:uid/profile-picture
 
-Bertugas untuk memasukkan foto profile yang ingin digunakan. 
-Request parameter adalah uid yang dimiliki oleh user.
-
-Request body dalam bentuk file yang seperti screenshot berikut
+This method is used to input the user profile picture. The request parameter needed is the `uid` of a specific user. The request body is in a file format as shown in the screenshot below.
 
 ![Screenshot of Request Body](Capture.JPG)
 
 
-Response yang sukses:
+#### Success Response
 
 ```json
 {
@@ -294,7 +292,7 @@ Response yang sukses:
 }
 ```
 
-Jika salah satu field (uid, profilePicture) kosong:
+#### Error Response if There is One or More Empty Field
 
 ```json
 {
@@ -303,7 +301,7 @@ Jika salah satu field (uid, profilePicture) kosong:
 }
 ```
 
-Jika tidak terdapat dokumen yang bernama uid tersebut:
+#### Error Response if There is No Document with Specific `uid`
 
 ```json
 {
@@ -312,7 +310,7 @@ Jika tidak terdapat dokumen yang bernama uid tersebut:
 }
 ```
 
-Jika terdapat error sewaktu melakukan proses penambahan foto profile:
+#### Error Response when Performing Profile Picture Addition
 
 ```json
 {
@@ -322,26 +320,25 @@ Jika terdapat error sewaktu melakukan proses penambahan foto profile:
 ```
 
 
-
 # ML API Service
 
-Untuk menggunakan API ini, berdasarkan form-data yang akan diberikan kepada server yang menghost server ini dengan perintah POST. Form data yang diperlukan terisi berdasarkan filenya terdiri atas:
+In order to use the ML API Service, the user needs to send form data to the server using the POST method. Here are the things that need to be included in the form data.
 
-## File
+## `file`
 
-File, terutama foto digital yang akan digunakan untuk terproses oleh model ML yang telah terbuat. Bentuk file yang sesuai dengan permintaan API berdasarkan pengujian yang kami lakukan adalah dalam bentuk .JPG
+This is an image file that is needed for inference purpose using the machine learning model that was developed before by the Machine Learning Engineers. Based on the test that has been conducted, the appropriate image format is .JPG.
 
-## Model
+## `model`
 
-Key ini menunjukkan ML model yang akan digunakan untuk mendeteksi kelainan yang dimiliki tanaman, buah, atau sayuran yang terfoto. Dua huruf pertama dalam isi Key tersebut (PD, FP) akan menunjukkan tipe objek yang ingin terdeteksi. PD (Plant-Diseases) mendeteksi penyakit yang dimiliki oleh tanaman dan beberapa buahan, serta FP (Fruit-Veg-Ripeness) mendeteksi kondisi kematangan berbagai sayuran dan buah-buahan.
+This key is used for specifying which machine learning model that will be loaded to perform the inferencing process. The value format for this key is `PD-model_name` or `FP-model_name`, where "PD" is indicating the plant crop disease models and "FP" indicating the fruit and vegetable ripeness models.
 
-Contoh: "PD-Grape" akan mendeteksi penyakit yang dimiliki oleh tanaman anggur. 
+Example: `PD-Grape` will refer to loading the plant crop disease model that has been trained for identifying the grape plant crop disease classes.
 
-## uid
+## `uid`
 
-Key ini akan berfungsi sebagai arahan untuk menyimpan riwayat deteksi buahan, penyakit tanaman, dan sayuran yang dilakukan oleh user pada sebuah periode. Isi tersebut sama dengan nama yang diberikan dokumen user yang sama dalam Firebase Auth serta Firestore.
+This key is used for defining the storage location of all the inference results for each specific user based on their `uid`. The response field's names are the same as the field names that have been defined inside the Firebase Auth and Firestore.
 
-Contoh respons yang berhasil adalah sebagai berikut:
+#### Success Response Example
 
 ```json
 {
