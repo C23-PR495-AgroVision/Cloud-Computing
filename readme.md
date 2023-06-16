@@ -274,7 +274,7 @@ This method is used to get user information based on the `uid` that was read out
 ```
 
 
-### POST /user/:uid/profile-picture
+#### POST /user/:uid/profile-picture
 
 This method is used to input the user profile picture. The request parameter needed is the `uid` of a specific user. The request body is in a file format as shown in the screenshot below.
 
